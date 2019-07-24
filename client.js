@@ -43,10 +43,10 @@ const employees = [
 $(document).ready(calcReady);
 
 console.log(employees);
+let bonusList = [];
 
 function bonusCalculator(employee) {
   let bonusPercentage = 0;
-
   console.log('calculating bonus');
 
   if (employee.annualSalary > 65000) {
@@ -85,13 +85,27 @@ function bonusCalculator(employee) {
     totalCompensation: totalCompensation,
     totalBonus: totalBonus,
   }
-  //return totalBonus;
-  //return totalCompensation;
+  
+  bonusList.push(newEmployee);
   return newEmployee;
 }//end bonusCalculator
 
 // loops through employees
+function runCalc(){
+  for (let i = 0; i < employees.length; i++) {
+    console.log(bonusCalculator(employees[i]));
+  }
+  displayBonus();
+}
 
+function displayBonus(){
+  console.log('Displaying bonuses');
+  let bonuses = $('#empBonuses')
+  bonuses.empty();
+  for (let employee of bonusList) {
+    bonuses.append(`<li>` + 'Name: ' + employee.name + ' Bonus Percentage: ' + employee.bonusPercentage + '% Total Compensation: $' + employee.totalCompensation + ' Total Bonus: $' + employee.totalBonus + `</li>`);
+  }
+}
 
 // console.log(bonusCalculator(employees[0]));
 // console.log(bonusCalculator(employees[2]));
@@ -99,8 +113,5 @@ function bonusCalculator(employee) {
 
 
 function calcReady() {
-  $('#calcButton').on('click', bonusCalculator);
-  for (let i = 0; i < employees.length; i++) {
-    console.log(bonusCalculator(employees[i]));
-  }
+  $('#calcButton').on('click', runCalc);
 }
